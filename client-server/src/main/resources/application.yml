@@ -1,0 +1,26 @@
+server:
+  port: 8082
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          shoping:
+            client-id: star2
+            client-secret: sec
+            authorizationGrantType: authorization_code
+            redirectUri: http://demo.client.com:8082/login/oauth2/code/shopping
+            scope:
+              - read
+              - write
+
+        provider:
+          shoping:
+            tokenUri: http://auth.server.com:8080/oauth/token
+            authorizationUri: http://auth.server.com:8080/oauth/authorize
+            userInfoUri: http://auth.server.com:8080/api/user
+            userNameAttribute: name
+
+logging:
+  level:
+    root: info
