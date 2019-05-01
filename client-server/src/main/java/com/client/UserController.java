@@ -27,13 +27,13 @@ public class UserController {
 
     @GetMapping("/api/user")
     String getUserWithAuthCode() {
-        String user = restTemplate.getForObject("http://auth.server.com:8080/api/user", String.class);
+        String user = restTemplate.getForObject("http://localhost:8081/api/user", String.class);
         return user;
     }
 
     @GetMapping("/api/v2/user")
     String getUserWithAuthCodeV2() {
-        String user = restTemplate.getForObject("http://auth.server.com:8080/api/user", String.class);
+        String user = restTemplate.getForObject("http://localhost:8081/api/user", String.class);
         return user;
     }
 

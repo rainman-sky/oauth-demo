@@ -18,7 +18,7 @@ spring:
           shoping:
             tokenUri: http://auth.server.com:8080/oauth/token
             authorizationUri: http://auth.server.com:8080/oauth/authorize
-            userInfoUri: http://auth.server.com:8080/api/user
+            userInfoUri: http://localhost:8081/api/user
             userNameAttribute: name
 
 logging:

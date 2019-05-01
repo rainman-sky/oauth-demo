@@ -27,7 +27,10 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
-        security.allowFormAuthenticationForClients();
+        security
+                // open check_token endpoint for trusted clients
+                .checkTokenAccess("isAnonymous() || hasAuthority('ROLE_TRUSTED_CLIENT')")
+                .allowFormAuthenticationForClients();
     }
 
     @Override
@@ -37,7 +40,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                     .resourceIds(RESOURCE_ID)
                     .secret(new BCryptPasswordEncoder().encode("sec"))
                     .authorities("ROLE_CLIENT", "ROLE_TRUSTED_CLIENT")
-                    .redirectUris("http://auth.client.com:8081/api/user")
+                    .redirectUris("http://auth.client.com:8082/api/user")
                     .authorizedGrantTypes( "authorization_code")
                     .scopes("read", "write")
                 .and()
@@ -52,7 +55,14 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 .withClient("star_client_credentials")
                     .resourceIds(RESOURCE_ID)
                     .secret(new BCryptPasswordEncoder().encode("sec"))
-                    .authorities("ROLE_CLIENT")
+                    .authorities("ROLE_CLIENT", "ROLE_TRUSTED_CLIENT")
+                    .authorizedGrantTypes("client_credentials")
+                    .scopes("read")
+                .and()
+                .withClient("resource_server")
+                    .resourceIds(RESOURCE_ID)
+                    .secret(new BCryptPasswordEncoder().encode("sec"))
+                    .authorities("ROLE_CLIENT", "ROLE_TRUSTED_CLIENT")
                     .authorizedGrantTypes("client_credentials")
                     .scopes("read")
                 .and()
